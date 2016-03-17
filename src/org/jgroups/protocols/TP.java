@@ -1691,8 +1691,7 @@ public abstract class TP extends Protocol implements DiagnosticsHandler.ProbeHan
             else
                 num_incoming_msgs_received++;
 
-            Executor pool=pickThreadPool(oob, internal);
-            pool.execute(new SingleMessageHandler(msg));
+            new SingleMessageHandler(msg).run();
         }
         catch(RejectedExecutionException ex) {
             num_rejected_msgs++;
