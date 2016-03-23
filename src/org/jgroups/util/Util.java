@@ -23,6 +23,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -1024,7 +1025,7 @@ public class Util {
 
     private static Address readOtherAddress(DataInput in) throws Exception {
         short magic_number=in.readShort();
-        Class<?> cl=ClassConfigurator.get(magic_number);
+        Constructor<?> cl=ClassConfigurator.getConstructor(magic_number);
         if(cl == null)
             throw new RuntimeException("class for magic number " + magic_number + " not found");
         Address addr=(Address)cl.newInstance();

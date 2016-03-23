@@ -7,6 +7,7 @@ import org.jgroups.util.*;
 
 import java.io.DataInput;
 import java.io.DataOutput;
+import java.lang.reflect.Constructor;
 import java.util.Map;
 
 /**
@@ -947,7 +948,7 @@ public class Message implements Streamable {
 
     protected static Header readHeader(DataInput in) throws Exception {
         short magic_number=in.readShort();
-        Class clazz=ClassConfigurator.get(magic_number);
+        Constructor<?> clazz=ClassConfigurator.getConstructor(magic_number);
         if(clazz == null)
             throw new IllegalArgumentException("magic number " + magic_number + " is not available in magic map");
 

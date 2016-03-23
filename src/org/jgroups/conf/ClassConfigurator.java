@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.util.*;
 
 /**
@@ -42,9 +43,11 @@ public class ClassConfigurator {
 
     // Magic map for all values defined in jg-magic-map.xml
     private static final Class[] magicMap=new Class[MAX_MAGIC_VALUE]; /// simple array, IDs are the indices
+    private static final Constructor[] magicMapConstructor=new Constructor[MAX_MAGIC_VALUE]; /// simple array, IDs are the indices
 
     // Magic map for user-defined IDs / classes
     private static final Map<Short,Class> magicMapUser=new HashMap<>(); // key=magic number, value=Class
+    private static final Map<Short,Constructor<?>> magicMapUserConstructor=new HashMap<>(); // key=magic number, value=Constructor
 
     /** Contains data read from jg-protocol-ids.xml */
     private static final Map<Class,Short> protocol_ids=new HashMap<>(MAX_MAGIC_VALUE);
@@ -96,6 +99,14 @@ public class ClassConfigurator {
                 throw new Exception("key " + m + " (" + clazz.getName() + ')' +
                                       " is already in magic map; please make sure that all keys are unique");
             magicMap[m]=clazz;
+            try
+            {
+                magicMapConstructor[m]=clazz.getDeclaredConstructor();
+            }
+            catch(NoSuchMethodException e)
+            {
+                // TODO: not sure why it fails for Address
+            }
             classMap.put(clazz, m);
         }
 
@@ -137,6 +148,14 @@ public class ClassConfigurator {
         if(classMap.containsKey(clazz))
             throw new IllegalArgumentException("class " + clazz.getName() + " is already present");
         magicMapUser.put(magic, clazz);
+        try
+        {
+            magicMapUserConstructor.put(magic, clazz.getDeclaredConstructor());
+        }
+        catch(NoSuchMethodException e)
+        {
+            throw new IllegalArgumentException(e);
+        }
         classMap.put(clazz, magic);
     }
 
@@ -159,6 +178,10 @@ public class ClassConfigurator {
      */
     public static Class<?> get(short magic) {
         return magic < MIN_CUSTOM_MAGIC_NUMBER? magicMap[magic] : magicMapUser.get(magic);
+    }
+
+    public static Constructor<?> getConstructor(short magic) {
+        return magic < MIN_CUSTOM_MAGIC_NUMBER? magicMapConstructor[magic] : magicMapUserConstructor.get(magic);
     }
 
     /**
