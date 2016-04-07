@@ -141,8 +141,6 @@ public class Configurator {
             for(InetAddress addr : addrs) {
                 if(addr instanceof Inet6Address && ip_version == StackType.IPv4)
                     throw new IllegalArgumentException("found IPv6 address " + addr + " in an IPv4 stack");
-                if(addr instanceof Inet4Address && addr.isMulticastAddress() && ip_version == StackType.IPv6)
-                    throw new Exception("found IPv4 multicast address " + addr + " in an IPv6 stack");
             }
         }
 
