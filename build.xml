@@ -336,15 +336,14 @@
         <property name="-savemanifest" value="${conf.dir}/MANIFEST.MF"/>
         <property name="-output" value="${conf.dir}"/>
         <taskdef resource="aQute/bnd/ant/taskdef.properties" classpathref="jg.classpath"/>
-        <bnd
+        <!--bnd
                 classpath="${bndclasspath}"
                 eclipse="false"
                 failok="false"
                 exceptions="true"
-                files="${conf.dir}/jgroups.bnd" />
+                files="${conf.dir}/jgroups.bnd" /-->
         <jar destfile="${dist.dir}/jgroups-${version}.jar"
              basedir="${compile.dir}"
-             manifest="${conf.dir}/MANIFEST.MF"
              includes="org/jgroups/**">
             <fileset dir="${conf.dir}" includes="*.xml, jg-messages*.properties, JGROUPS_VERSION.properties">
                 <exclude name="log4j*.xml"/>
