@@ -568,6 +568,7 @@ public class ProtocolStack extends Protocol {
             prot.setUpProtocol(above);
             if(above != null)
                 above.setDownProtocol(prot);
+            //if(1==1) throw new RuntimeException("bing");
             prot.setDownProtocol(neighbor);
             neighbor.setUpProtocol(prot);
         }

@@ -651,6 +651,14 @@
                  threadcount="1" />
     </target>
 
+    <target name="ralf" depends="postcompile,define-testng-task" description="Runs stack-independent tests">
+        <mkdir dir="${tmp.dir}/test-results/xml/ralf"/>
+        <runtest suitename="ralf"
+                 groups="ralf"
+                 parallel="${parallel.classes}"
+                 threadcount="1" />
+    </target>
+
 
     <target name="udp" depends="postcompile,define-testng-task" description="Runs UDP tests">
         <mkdir dir="${tmp.dir}/test-results/xml/udp"/>

@@ -23,7 +23,7 @@ import java.util.*;
  * @since 3.1
  */
 @Test(groups=Global.STACK_INDEPENDENT,singleThreaded=true)
-public class SequencerMergeTest {
+public class SequencerMergeTest { // zack
     JChannel a, b, c, d;
     static final String GROUP="SequencerMergeTest";
 
